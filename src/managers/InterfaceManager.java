@@ -34,16 +34,6 @@ public class InterfaceManager extends JPanel
 		frame.setBackground(Color.BLACK);
 		
 		cg.setBackground(Color.BLACK);
-		//addCompToPanel(cg);
-		
-		/*mainScreen = new JPanel();
-		mainScreen.setBackground(Color.BLACK);
-		mainScreen.setFocusable(true);
-		
-		cg.setPreferredSize(dimension);
-		cg.setBackground(Color.BLACK);
-		mainScreen.add(cg);
-		mainScreen.setLocation(dimension.width / 2, dimension.height / 2);*/
 		
 		frame.add(cg, BorderLayout.CENTER);	
 		cg.start();
