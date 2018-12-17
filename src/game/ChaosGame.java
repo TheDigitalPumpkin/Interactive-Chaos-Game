@@ -335,13 +335,13 @@ public class ChaosGame extends JPanel
         			reset(numVertices);
         		}
         		
-        		if(gameManager.ratioChangeIssued)
+        		if(gameManager.ratioChangeIssued) //TODO: Replace this with a method, instead of a public attribute.
         		{
         			gameManager.ratioChangeIssued = false;
         			setRatio(gameManager.newRatioRequested());
         		}
         		
-        		if(gameManager.numVerticesChangeIssued)
+        		if(gameManager.numVerticesChangeIssued) //TODO: Replace this with a method, instead of a public attribute.
         		{
         			gameManager.numVerticesChangeIssued = false;
         			changeNumberOfVertices(gameManager.newNumberVerticesRequested());
