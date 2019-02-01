@@ -1,15 +1,10 @@
 package game;
 
 import java.awt.*;
-import javax.swing.undo.*;
 import managers.*;
-import javax.swing.event.UndoableEditEvent;
-import java.util.TimerTask;
 import javax.swing.*;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.awt.event.*;
-import java.io.IOException;
 import javax.swing.Timer;
 import ponto.*;
 import misc.Ratio;
@@ -21,9 +16,9 @@ public class ChaosGame extends JPanel
 	private GameManager gameManager;
 	private int numVertices;
 	private Stack<PontoColorido> stack = new Stack<>();
-	private Ponto[] pontos;
-	private Color[] colors = {Color.WHITE, Color.BLUE, Color.GREEN, Color.RED, Color.ORANGE};
-	private Ratio[] stdRatios = {new Ratio(1, 2), new Ratio(1, 4), new Ratio(3, 4)};
+	private Ponto[] points;
+	private Color[] colors = {Color.WHITE, Color.BLUE, Color.GREEN, Color.RED, Color.ORANGE, Color.CYAN, Color.MAGENTA};
+	private Ratio[] stdRatios = {new Ratio(1, 2), new Ratio(1, 4), new Ratio(1, 3), new Ratio(3, 8), new Ratio(3, 4)};
 	private int[] gameSpeeds = {1301, 901, 451, 201, 101, 51, 1};
 	private Random r = new Random();
 	private Timer t;
@@ -39,10 +34,10 @@ public class ChaosGame extends JPanel
 	private boolean coloredModeOn;
 	private boolean specialRuleOn;
 
-	public ChaosGame(int nVertices)
+	public ChaosGame()
 	{
-		pontos = new Ponto[nVertices];	
-		numVertices = nVertices;
+		points = new Ponto[3];	
+		numVertices = 3;
 		currentTurn = 1;	
 		currentSpeed = 0;
 		lastSpeed = 0;
@@ -61,21 +56,15 @@ public class ChaosGame extends JPanel
 		font1 = new Font("Oswald", Font.BOLD, 20);
 		font2 = new Font("Inconsolata", Font.BOLD, 14);
 		
-		int rx = r.nextInt(380);
-		int ry = r.nextInt(320);
-
-		while(rx < 200)
-			rx = r.nextInt(380);
-
-		while(ry < 100)
-			ry = r.nextInt(320);
+		int rx = r.nextInt((380 - 200) + 1) + 250;
+		int ry = r.nextInt((320 - 100) + 1) + 140;
 
 		PontoColorido tracePoint = new PontoColorido(rx, ry, 0);
 		stack.push(tracePoint);
 
 		dimension = new Dimension(640, 640);
 		
-		createVertices(nVertices);
+		createVertices(3);
 	}
 	
 	private void createVertices(int nVertices)
@@ -83,49 +72,69 @@ public class ChaosGame extends JPanel
 		int margin = 60;
 		int size = dimension.width - margin * 2;
 		
-		pontos = new Ponto[nVertices];
+		points = new Ponto[nVertices];
 		
-		pontos[0] = new Ponto(dimension.width / 2, dimension.height / 2 - 150);
+		points[0] = new Ponto(dimension.width / 2, dimension.height / 2 - 150);
 		
 		switch(nVertices)
 		{
 			case 2:
-				pontos[1] = new Ponto(dimension.width / 2, dimension.height - margin - 70);
+				points[1] = new Ponto(dimension.width / 2, dimension.height - margin - 70);
 				break;
 		
 			case 3:		
-				pontos[1] = new Ponto(margin + 50, size - 50);
-		        pontos[2] = new Ponto(530, size - 50);
+				points[1] = new Ponto(margin + 50, size - 50);
+		        points[2] = new Ponto(530, size - 50);
 		        break;
 		        
 			case 4:
-				pontos[1] = new Ponto(margin + 80, (dimension.height / 2));
-		        pontos[2] = new Ponto(dimension.width - margin - 80, (dimension.height / 2));
-		        pontos[3] = new Ponto(dimension.width / 2, dimension.height - margin - 110);
+		        points[1] = new Ponto(dimension.width - margin - 80, (dimension.height / 2));
+		        points[2] = new Ponto(dimension.width / 2, dimension.height - margin - 110);
+		        points[3] = new Ponto(margin + 80, (dimension.height / 2));
 		        break;
 		        
 			case 5:
-				pontos[1] = new Ponto(dimension.width / 2 + 180, dimension.height / 2 - 55);
-				pontos[2] = new Ponto(dimension.width / 2 - 180, dimension.height / 2 - 55);
-				pontos[3] = new Ponto(dimension.width / 2 + 120, dimension.height / 2 + 120);
-				pontos[4] = new Ponto(dimension.width / 2 - 120, dimension.height / 2 + 120);
+				points[1] = new Ponto(dimension.width / 2 + 180, dimension.height / 2 - 55);
+				points[2] = new Ponto(dimension.width / 2 + 120, dimension.height / 2 + 120);
+				points[3] = new Ponto(dimension.width / 2 - 120, dimension.height / 2 + 120);
+				points[4] = new Ponto(dimension.width / 2 - 180, dimension.height / 2 - 55);
+				break;
+				
+			case 6:
+				points[1] = new Ponto(dimension.width / 2 + 160, dimension.height / 2 - 65);
+				points[2] = new Ponto(dimension.width / 2 + 160, dimension.height / 2 + 110);
+				points[3] = new Ponto(dimension.width / 2, dimension.height - margin - 80);
+				points[4] = new Ponto(dimension.width / 2 - 160, dimension.height / 2 + 110);
+				points[5] = new Ponto(dimension.width / 2 - 160, dimension.height / 2 - 65);
+				break;
+				
+			case 7:
+				points[1] = new Ponto(dimension.width / 2 + 160, dimension.height / 2 - 65);
+				points[2] = new Ponto(dimension.width / 2 + 160, dimension.height / 2 + 80);
+				points[3] = new Ponto(dimension.width / 2 + 70, dimension.height - margin - 80);
+				points[4] = new Ponto(dimension.width / 2 - 70, dimension.height - margin - 80);
+				points[5] = new Ponto(dimension.width / 2 - 160, dimension.height / 2 + 80);
+				points[6] = new Ponto(dimension.width / 2 - 160, dimension.height / 2 - 65);
 				break;
 		}
 	}
 	
-	private Ponto proximoPonto(Ponto currentPoint, Ponto proxVertice, int currentRatio)
+	private Ponto nextPoint(Ponto currentPoint, Ponto nextVertex, int currentRatio)
 	{
-		Ponto p;
+		Ponto p = null;
 		Ratio current = stdRatios[currentRatio];
 		
 		if(currentRatio == 1)
-		p = new Ponto( (proxVertice.getX() + currentPoint.getX()) / current.getDenominator() + 170, (proxVertice.getY() + currentPoint.getY()) / current.getDenominator() + 170 );
+		p = new Ponto( (nextVertex.getX() + currentPoint.getX()) / current.getDenominator() + 170, (nextVertex.getY() + currentPoint.getY()) / current.getDenominator() + 170 );
 			
 		else if(currentRatio == 2)
-		p = new Ponto(current.getNumerator() * ((proxVertice.getX() + currentPoint.getX()) / current.getDenominator()) - 240, current.getNumerator() * ((proxVertice.getY() + currentPoint.getY()) / current.getDenominator())  - 200);
+		p = new Ponto(current.getNumerator() * ((nextVertex.getX() + currentPoint.getX()) / current.getDenominator()) + 107, current.getNumerator() * ((nextVertex.getY() + currentPoint.getY()) / current.getDenominator()) + 110);
+		
+		else if(currentRatio == 3)
+		p = new Ponto( current.getNumerator() * ((nextVertex.getX() + currentPoint.getX()) / current.getDenominator()) + 90, current.getNumerator() * ((nextVertex.getY() + currentPoint.getY()) / current.getDenominator()) + 90);
 		
 		else
-		p = new Ponto( (proxVertice.getX() + currentPoint.getX()) / 2, (proxVertice.getY() + currentPoint.getY()) / 2 );
+		p = new Ponto((nextVertex.getX() + currentPoint.getX()) / 2, (nextVertex.getY() + currentPoint.getY()) / 2);
 		
 		return p;
 	}
@@ -134,28 +143,28 @@ public class ChaosGame extends JPanel
 	{
 		try
 		{
-			int proxVertice = r.nextInt(numVertices);
+			int nextVertex = r.nextInt(numVertices);
 			
 			if(!coloredModeOn)
 			{
 				if(specialRuleOn)
 				{
-					if(proxVertice != prev)
+					if(nextVertex != prev)
 					{
-						Ponto pontoAtual = stack.peek();
-						Ponto prox = pontos[proxVertice];
-						stack.add(new PontoColorido(proximoPonto(pontoAtual, prox, currentRatio), 0));
+						Ponto currPoint = stack.peek();
+						Ponto next = points[nextVertex];
+						stack.add(new PontoColorido(nextPoint(currPoint, next, currentRatio), 0));
 						currentTurn++;
 					}
 							
-					prev = proxVertice;
+					prev = nextVertex;
 				}
 				
 				else
 				{
-					Ponto pontoAtual = stack.peek();
-					Ponto prox = pontos[proxVertice];
-					stack.add(new PontoColorido(proximoPonto(pontoAtual, prox, currentRatio), 0));
+					Ponto currPoint = stack.peek();
+					Ponto next = points[nextVertex];
+					stack.add(new PontoColorido(nextPoint(currPoint, next, currentRatio), 0));
 					currentTurn++;
 				}
 			}
@@ -164,22 +173,22 @@ public class ChaosGame extends JPanel
 			{
 				if(specialRuleOn)
 				{
-					if(proxVertice != prev)
+					if(nextVertex != prev)
 					{
-						Ponto pontoAtual = stack.peek();
-						Ponto prox = pontos[proxVertice];
-						stack.add(new PontoColorido(proximoPonto(pontoAtual, prox, currentRatio), proxVertice));
+						Ponto currPoint = stack.peek();
+						Ponto next = points[nextVertex];
+						stack.add(new PontoColorido(nextPoint(currPoint, next, currentRatio), nextVertex));
 						currentTurn++;
 					}
 					
-					prev = proxVertice;
+					prev = nextVertex;
 				}
 				
 				else
 				{
-					Ponto pontoAtual = stack.peek();
-					Ponto prox = pontos[proxVertice];
-					stack.add(new PontoColorido(proximoPonto(pontoAtual, prox, currentRatio), proxVertice));
+					Ponto currPoint = stack.peek();
+					Ponto next = points[nextVertex];
+					stack.add(new PontoColorido(nextPoint(currPoint, next, currentRatio), nextVertex));
 					currentTurn++;
 				}
 			}
@@ -190,7 +199,7 @@ public class ChaosGame extends JPanel
 		}
 	}
 	
-	public void mostrarInstrucoes(Graphics2D g)
+	private void displayCommands(Graphics2D g)
 	{
 		g.setFont(new Font("Oswald", Font.PLAIN, 20));
 		g.setColor(Color.WHITE);
@@ -200,39 +209,38 @@ public class ChaosGame extends JPanel
 		g.drawString("Press the left arrow key to slow down the simulation.", 630, 140);
 		g.drawString("Press 'R' to reset the simulation.", 630, 170);
 		g.drawString("Press 'P' to turn on 'Colored Point mode' (This will reset the game).", 630, 200);
-		g.drawString("Press numbers 2-5 to change the number of vertices (This will reset the game).", 630, 230);
+		g.drawString("Press numbers 2-7 to change the number of vertices (This will reset the game).", 630, 230);
 		g.drawString("Press Z to make the tracepoint go 1/2 of the way (This will reset the game).", 630, 260);
 		g.drawString("Press X to make the tracepoint go 1/4 of the way (This will reset the game).", 630, 290);
-		g.drawString("Press C to make the tracepoint go 3/4 of the way (This will reset the game).", 630, 320);
-		g.drawString("Press 'Shift' to activate a special rule! (This will reset the game)", 630, 350);
+		g.drawString("Press C to make the tracepoint go 1/3 of the way (This will reset the game).", 630, 320);
+		g.drawString("Press V to make the tracepoint go 3/8 of the way (This will reset the game).", 630, 350);
+		g.drawString("Press 'Shift' to activate a special rule! (This will reset the game)", 630, 410);
 	}
 	
 	private void showInfo(Graphics2D gg)
 	{
 		gg.setColor(Color.WHITE);
 		gg.setFont(font1);
-		gg.drawString("Iterations: " + currentTurn, 20, 100);
+		gg.drawString("Iterations: " + currentTurn, 20, 50);
 		
 		simulationSpeed = (int) Math.pow(2, currentSpeed);
 		
-		gg.drawString("Speed: " + simulationSpeed + "X", 20, 130);
-		
-		gg.drawString("Tracepoint currently at: ", 630, 410);
-		gg.drawString("x = " + stack.peek().getX() + ", y = " + stack.peek().getY(), 630, 440);
-		
+		gg.drawString("Speed: " + simulationSpeed + "X", 20, 80);		
+		gg.drawString("Tracepoint currently at: ", 630, 470);
+		gg.drawString("x = " + stack.peek().getX() + ", y = " + stack.peek().getY(), 630, 500);	
 		gg.drawString("Currently going " + stdRatios[currentRatio].getNumerator() + "/" + 
-		stdRatios[currentRatio].getDenominator() + " of the way through.", 630, 470);
+		stdRatios[currentRatio].getDenominator() + " of the way through.", 630, 530);
 	}
 
-	private void desenharVertices(Graphics2D g)
+	private void drawVertices(Graphics2D g)
 	{
 		int i = 1;
 
-		for(Ponto p : pontos)
+		for(Ponto p : points)
 		{
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("Oswald", Font.PLAIN, 12));
-			g.fillOval(p.getX(), p.getY(), 10, 10);
+			g.fillOval(p.getX() - 4, p.getY() - 7, 10, 10);
 			
 			if(i == 1)
 			g.drawString("Point " + i++, p.getX(), p.getY() - 5);					
@@ -242,7 +250,7 @@ public class ChaosGame extends JPanel
 		}
 	}
 	
-	private void desenharTracepoint(Graphics2D g)
+	private void drawTracepoint(Graphics2D g)
 	{
 		Graphics2D gg = (Graphics2D) g;
 		
@@ -271,21 +279,20 @@ public class ChaosGame extends JPanel
 					gg.setColor(colors[p.getColorIndex()]);
 					gg.fillOval(p.getX(), p.getY(), 2, 2);
 					gg.setColor(Color.WHITE);
-					
-				} catch(EmptyStackException e)
+				} catch(EmptyStackException e) 
 				{
 					System.out.println(e);
 				}
 			}
 		}
 	}
-	
-	public void reset(int nVertices)
+
+	private void reset(int nVertices)
 	{		
-		currentTurn = 0;		
-		stack.clear();	
-		stack.add(new PontoColorido(323, 173, 0));
+		currentTurn = 0;
 		currentSpeed = 0;
+		stack.clear();	
+		stack.add(new PontoColorido(points[0].getX(), points[0].getY() - 7, 0));
 		createVertices(nVertices);
 		numVertices = nVertices;
 		resetIssued = true;
@@ -316,7 +323,6 @@ public class ChaosGame extends JPanel
         			{
         				t.setInitialDelay(gameSpeeds[++currentSpeed]);   
         				t.setDelay(gameSpeeds[currentSpeed]);
-        				//gameManager.speedUpIssued = !gameManager.speedUpIssued;
         			}
         		}
         		
@@ -331,17 +337,17 @@ public class ChaosGame extends JPanel
         		
         		if(gameManager.specialRuleIssued())
         		{
-        			specialRuleOn = true;
+        			specialRuleOn = !specialRuleOn;
         			reset(numVertices);
         		}
         		
-        		if(gameManager.ratioChangeIssued) //TODO: Replace this with a method, instead of a public attribute.
+        		if(gameManager.ratioChangeIssued)
         		{
         			gameManager.ratioChangeIssued = false;
         			setRatio(gameManager.newRatioRequested());
         		}
         		
-        		if(gameManager.numVerticesChangeIssued) //TODO: Replace this with a method, instead of a public attribute.
+        		if(gameManager.numVerticesChangeIssued)
         		{
         			gameManager.numVerticesChangeIssued = false;
         			changeNumberOfVertices(gameManager.newNumberVerticesRequested());
@@ -358,15 +364,14 @@ public class ChaosGame extends JPanel
 	@Override
 	public void paintComponent(Graphics g)
 	{
-		//TODO: Por tudo isso aqui no InterfaceManager.
 		super.paintComponent(g);
 		Graphics2D gg = (Graphics2D) g;
 		gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		showInfo(gg);
-		mostrarInstrucoes(gg);
-		desenharVertices(gg);
-		desenharTracepoint(gg);
+		displayCommands(gg);
+		drawVertices(gg);
+		drawTracepoint(gg);
 		
 		if(resetIssued)
 		{
@@ -382,7 +387,7 @@ public class ChaosGame extends JPanel
 	{	
 		if(newNumber == 2)
 		{
-			if(numVertices != 3)
+			if(numVertices != 2)
 			{
 				reset(2);
 				return;
@@ -415,6 +420,24 @@ public class ChaosGame extends JPanel
 				return;
 			}
 		}
+		
+		else if(newNumber == 6)
+		{
+			if(numVertices != 6)
+			{
+				reset(6);
+				return;
+			}
+		} 
+		
+		else if(newNumber == 7)
+		{
+			if(numVertices != 7)
+			{
+				reset(7);
+				return;
+			}
+		}
 	}
 	
 	public void setRatio(int newRatio)
@@ -433,9 +456,9 @@ public class ChaosGame extends JPanel
 		return currentTurn;
 	}
 	
-	public Ponto[] getVetorPontos()
+	public Ponto[] getPointsArray()
 	{
-		return pontos;
+		return points;
 	}
 	
 	public int getNumberOfVertices()
