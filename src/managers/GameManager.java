@@ -65,6 +65,12 @@ public class GameManager implements KeyListener
 			newRatio = 2;
 		}
 		
+		if(e.getKeyCode() == KeyEvent.VK_V)
+		{
+			ratioChangeIssued = true;
+			newRatio = 3;
+		}
+		
 		if(e.getKeyCode() == KeyEvent.VK_SHIFT)
 		specialRuleIssued = true;
 				
@@ -111,7 +117,7 @@ public class GameManager implements KeyListener
 	@Override
 	public void keyReleased(KeyEvent e)
 	{
-		//System.out.println("Corno solto = " + KeyEvent.getKeyText(e.getKeyCode()));
+		
 	}
 	
 	public boolean slowDownIssued()
