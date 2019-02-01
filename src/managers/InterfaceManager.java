@@ -1,56 +1,32 @@
 package managers;
 import java.awt.*;
 import game.ChaosGame;
-import ponto.Ponto;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.EmptyStackException;
-
-import javax.imageio.IIOException;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class InterfaceManager extends JPanel
+public class InterfaceManager extends JFrame
 {
-	public JFrame frame;
+	private JFrame frame;
 	private Dimension dimension;
 	private ChaosGame cg;
+	private JPanel mainScreen;
 	
 	public InterfaceManager(ChaosGame cg)
 	{
 		this.cg = cg;
 		
-		frame = new JFrame("Chaos Game!");
+		setTitle("Chaos Game!");	
 		dimension = new Dimension(1280, 640);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(dimension);
-		frame.setResizable(false);
-		frame.setBackground(Color.BLACK);
+		setPreferredSize(dimension);		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setBackground(Color.BLACK);
 		
-		cg.setBackground(Color.BLACK);
-		
-		frame.add(cg, BorderLayout.CENTER);	
-		cg.start();
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-	}
+		cg.setBackground(Color.BLACK);		
+		add(cg, BorderLayout.CENTER);
 
-	public void mostrarInstrucoes(Graphics2D g)
-	{
-		g.setColor(Color.WHITE);
-		g.drawString("Instructions: ", dimension.width - (dimension.width / 4), 120);
-	}
-	
-	@Override
-	public void paintComponent(Graphics g)
-	{
-		super.paintComponent(g);
+		cg.start();
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 }
