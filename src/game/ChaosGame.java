@@ -1,3 +1,12 @@
+/**
+* Chaos Game!
+*
+*
+* @author Bruno Bacelar
+* @version 1.0
+* @since 17/12/2018
+*/
+
 package game;
 
 import java.awt.*;
