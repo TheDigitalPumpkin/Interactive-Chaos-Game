@@ -308,7 +308,7 @@ public class ChaosGame extends JPanel
 		t.setDelay(gameSpeeds[currentSpeed]);
 	}
 	
-	public void start()
+	private void start()
 	{		
 		t = new Timer(gameSpeeds[0], (ActionEvent e) -> 
         {       	
@@ -392,7 +392,7 @@ public class ChaosGame extends JPanel
 		}
 	}
 	
-	public void changeNumberOfVertices(int newNumber)
+	private void changeNumberOfVertices(int newNumber)
 	{	
 		if(newNumber == 2)
 		{
