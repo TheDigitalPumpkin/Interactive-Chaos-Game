@@ -93,14 +93,14 @@ public class ChaosGame extends JPanel
 		
 			case 3:		
 				points[1] = new Ponto(margin + 50, size - 50);
-		        points[2] = new Ponto(530, size - 50);
-		        break;
+		        	points[2] = new Ponto(530, size - 50);
+		        	break;
 		        
 			case 4:
-		        points[1] = new Ponto(dimension.width - margin - 80, (dimension.height / 2));
-		        points[2] = new Ponto(dimension.width / 2, dimension.height - margin - 110);
-		        points[3] = new Ponto(margin + 80, (dimension.height / 2));
-		        break;
+		        	points[1] = new Ponto(dimension.width - margin - 80, (dimension.height / 2));
+		       	 	points[2] = new Ponto(dimension.width / 2, dimension.height - margin - 110);
+		        	points[3] = new Ponto(margin + 80, (dimension.height / 2));
+		        	break;
 		        
 			case 5:
 				points[1] = new Ponto(dimension.width / 2 + 180, dimension.height / 2 - 55);
