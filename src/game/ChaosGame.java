@@ -308,7 +308,7 @@ public class ChaosGame extends JPanel
 		t.setDelay(gameSpeeds[currentSpeed]);
 	}
 	
-	private void start()
+	public void start()
 	{		
 		t = new Timer(gameSpeeds[0], (ActionEvent e) -> 
         {       	
