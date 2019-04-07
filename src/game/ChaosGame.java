@@ -43,7 +43,7 @@ public class ChaosGame extends JPanel
 	private boolean specialRuleOn;
 
 	/**
-	 * Class constructor
+	 * Class constructor, which intializes all class variables with standard values, sets up the simulation window, and add a KeyListener to handle keyboard input.
 	 */
 	
 	public ChaosGame()
@@ -79,7 +79,7 @@ public class ChaosGame extends JPanel
 	}
 	
 	/**
-	 * 
+	 * This function creates the vertices to be used in the simulation. All the vertices are stored in an array.
 	 * @param nVertices The number of vertices to be created for usage in the simulation.
 	 */
 	
