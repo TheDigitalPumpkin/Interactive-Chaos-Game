@@ -38,11 +38,14 @@ public class ChaosGame extends JPanel
 	private int simulationSpeed;
 	private Font font1;
 	private Font font2;
-	private boolean isPaused;
 	private boolean resetIssued;
 	private boolean coloredModeOn;
 	private boolean specialRuleOn;
 
+	/**
+	 * Class constructor
+	 */
+	
 	public ChaosGame()
 	{
 		points = new Ponto[3];	
@@ -51,7 +54,6 @@ public class ChaosGame extends JPanel
 		currentSpeed = 0;
 		lastSpeed = 0;
 		currentRatio = 0;
-		isPaused = false;
 		resetIssued = false;
 		coloredModeOn = false;
 		specialRuleOn = false;
@@ -75,6 +77,11 @@ public class ChaosGame extends JPanel
 		
 		createVertices(3);
 	}
+	
+	/**
+	 * 
+	 * @param nVertices The number of vertices to be created for usage in the simulation.
+	 */
 	
 	private void createVertices(int nVertices)
 	{
@@ -128,6 +135,13 @@ public class ChaosGame extends JPanel
 		}
 	}
 	
+	/**
+	 * @param currentPoint	The last point drawn onto the screen.
+	 * @param nextVertex	The next vertex to where the tracepoint will travel, obtained by generating a random number between 1 and N, where N = Number of vertices.
+	 * @param currentRatio	The current distance at which the tracepoint "travels".
+	 * @return A point object that holds the coordinates where the tracepoint will be drawn next.
+	 */
+	
 	private Ponto nextPoint(Ponto currentPoint, Ponto nextVertex, int currentRatio)
 	{
 		Ponto p = null;
@@ -148,6 +162,9 @@ public class ChaosGame extends JPanel
 		return p;
 	}
 
+	/**
+	 * This function adds the next point generated through the nextPoint(Ponto currentPoint, Ponto nextVertex, Ratio currentRatio) to the top of the stack.
+	 */
 	private void addPoint()
 	{
 		try
@@ -208,6 +225,11 @@ public class ChaosGame extends JPanel
 		}
 	}
 	
+	/**
+	 * This function displays the simulation keyboard controls on the screen.
+	 * @param g		A Graphics2D object, used to draw the commands on the screen.
+	 */
+	
 	private void displayCommands(Graphics2D g)
 	{
 		g.setFont(new Font("Oswald", Font.PLAIN, 20));
@@ -226,6 +248,11 @@ public class ChaosGame extends JPanel
 		g.drawString("Press 'Shift' to activate a special rule! (This will reset the game)", 630, 410);
 	}
 	
+	/**
+	 * This function displays current statistics about the simulation on the screen.
+	 * @param gg	A Graphics2D object used to drawn current information about the status of the simulation on the screen.
+	 */
+	
 	private void showInfo(Graphics2D gg)
 	{
 		gg.setColor(Color.WHITE);
@@ -240,6 +267,11 @@ public class ChaosGame extends JPanel
 		gg.drawString("Currently going " + stdRatios[currentRatio].getNumerator() + "/" + 
 		stdRatios[currentRatio].getDenominator() + " of the way through.", 630, 530);
 	}
+	
+	/**
+	 * This function draws the vertices on the screen.
+	 * @param g	A Graphics2D object used to draw the vertices on the screen.
+	 */
 
 	private void drawVertices(Graphics2D g)
 	{
@@ -258,6 +290,11 @@ public class ChaosGame extends JPanel
 			g.drawString("Point " + i++, p.getX(), p.getY() + 25);
 		}
 	}
+	
+	/**
+	 * This function draws the tracepoint on the screen, at the coordinates given by the point on the top of the stack.
+	 * @param g		A Graphics2D object used to draw the tracepoint on the screen.
+	 */
 	
 	private void drawTracepoint(Graphics2D g)
 	{
@@ -295,6 +332,11 @@ public class ChaosGame extends JPanel
 			}
 		}
 	}
+	
+	/**
+	 * This function is called when the user issues a simulation reset.
+	 * @param nVertices		The number of vertices to be used on the simulation after it's been reset.<!-- --> This number can be equal to the last number of vertices used in the simulation.
+	 */
 
 	private void reset(int nVertices)
 	{		
@@ -307,6 +349,10 @@ public class ChaosGame extends JPanel
 		resetIssued = true;
 		t.setDelay(gameSpeeds[currentSpeed]);
 	}
+	
+	/**
+	 * This function starts the simulation, which run by a Timer object.
+	 */
 	
 	public void start()
 	{		
@@ -391,6 +437,11 @@ public class ChaosGame extends JPanel
 			repaint();
 		}
 	}
+	
+	/**
+	 * This function is called when the user issues a command to change the number of vertices in the simulation.<!-- -->It checks to see if the new number requested is different from the current number of vertices, and if it is, it resets the simulation with number of vertices the user desires.
+	 * @param newNumber		The new number of vertices to be used in the simulation.
+	 */
 	
 	private void changeNumberOfVertices(int newNumber)
 	{	
