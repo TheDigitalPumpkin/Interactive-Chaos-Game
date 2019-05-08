@@ -499,35 +499,4 @@ public class ChaosGame extends JPanel
 			}
 		}
 	}
-	
-	public void setRatio(int newRatio)
-	{
-		currentRatio = newRatio;
-		reset(numVertices);
-	}
-	
-	public Stack<PontoColorido> getStack()
-	{
-		return stack;
-	}
-	
-	public int getCurrentTurn()
-	{
-		return currentTurn;
-	}
-	
-	public Ponto[] getPointsArray()
-	{
-		return points;
-	}
-	
-	public int getNumberOfVertices()
-	{
-		return numVertices;
-	}
-	
-	public Timer getTimer() 
-	{
-		return t;
-	}
 }
