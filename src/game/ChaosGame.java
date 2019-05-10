@@ -43,7 +43,7 @@ public class ChaosGame extends JPanel
 	private boolean specialRuleOn;
 
 	/**
-	 * Class constructor, which intializes all class variables with standard values, sets up the simulation window, and add a KeyListener to handle keyboard input.
+	 * Class constructor, which intializes all class variables with standard values, sets up the simulation window, and adds a KeyListener to handle keyboard input.
 	 */
 	
 	public ChaosGame()
@@ -334,7 +334,7 @@ public class ChaosGame extends JPanel
 	}
 	
 	/**
-	 * This function is called when the user issues a simulation reset.
+	 * This function is called when the user issues a simulation reset.<!-- -->It resets the turn and speed, clears the point stack, and recreates the vertices.
 	 * @param nVertices		The number of vertices to be used on the simulation after it's been reset.<!-- --> This number can be equal to the last number of vertices used in the simulation.
 	 */
 
@@ -354,6 +354,7 @@ public class ChaosGame extends JPanel
 	 * This function starts the simulation, which run by a Timer object.
 	 */
 	
+	//TODO: Create a separate thread to handle keyboard input.
 	public void start()
 	{		
 		t = new Timer(gameSpeeds[0], (ActionEvent e) -> 
